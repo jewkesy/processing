@@ -1,5 +1,6 @@
 PImage me;
 int factor = 1;
+boolean showingGrey = false;
 
 void setup() {
   size(800, 400);
@@ -83,17 +84,21 @@ void draw() {
 }
 
 void keyPressed() {
-  println(key, keyCode);
-  
+  //println(key, keyCode);
+
   int keyIndex = -1;
-  
-  if (key > '0' && key <= '9') {
+
+  if (key == 32) {
+    me = loadImage("/Users/daryl/Downloads/me_square_2020.jpg");
+    if (showingGrey == true) showingGrey = false;
+    else {
+      showingGrey = true;
+      me.filter(GRAY);
+    }
+  } else if (key > '0' && key <= '9') {
     keyIndex = key - 48;
     factor = keyIndex;
     me = loadImage("/Users/daryl/Downloads/me_square_2020.jpg");
-  } else if (key == 32) {
-    me = loadImage("/Users/daryl/Downloads/me_square_2020.jpg");
-    me.filter(GRAY);
-    println("spaced");
+    if (showingGrey == true) me.filter(GRAY);
   }
 }
