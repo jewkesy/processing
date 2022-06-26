@@ -6,13 +6,19 @@ class Frog extends Rectangle {
   
   void show() {
     fill(255);
-    rectMode(CORNERS);
-    rect(left, top, right, bottom);
+    rect(x, y, w, w);
   }
   
   void move(float xdir, float ydir) {
-    left += xdir * grid;
-    top += ydir * grid;
+    float tmpx = x;
+    float tmpy = y;
+    tmpx += xdir * grid;
+    tmpy += ydir * grid;
+    if (tmpx < 0 || tmpx >= width) return;
+    if (tmpy < 0 || tmpy >= height) return;
+    
+    x += xdir * grid;
+    y += ydir * grid;
   }
 
 }

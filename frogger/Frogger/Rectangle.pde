@@ -22,9 +22,9 @@ class Rectangle {
    float otop = other.y;
    float obottom = other.y + other.h;    
     
-    return !(left > oright || 
-    right < oleft ||
-    top > obottom ||
-    bottom < otop);
+    return !(left >= oright || 
+    right <= oleft ||
+    top >= obottom ||
+    bottom <= otop);
   }
 }
