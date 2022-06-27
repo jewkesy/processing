@@ -14,8 +14,10 @@ class Car extends Rectangle {
   void update() {
     x = x + speed;
     
-    if (x > width+grid) {
+    if (speed > 0 && x > width+grid) {
       x = -w-grid;
+    } else if (speed < 0 && x < -grid) {
+      x = width+grid;
     }
   }
 

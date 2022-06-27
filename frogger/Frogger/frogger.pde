@@ -1,10 +1,11 @@
 Frog frog;
 Car[] cars;
+Log[] logs;
 
 float grid = 50;
 
 void resetGame() {
-  frog = new Frog(width / 2-grid / 2, height-grid, grid);
+  frog = new Frog(width / 2-grid / 2, height-grid*5, grid);
 }
 
 void setup() {
@@ -25,21 +26,34 @@ void setup() {
   // Row 2
   for (int i = 0; i < 2; i++) {
     float x = i * 200 + 150;
-    cars[index] = new Car(x, height-grid*3, grid, grid, 3.5);
+    cars[index] = new Car(x, height-grid*3, grid, grid, -3.5);
     index++;
   } 
   
-  // Row 2
+  // Row 3
   for (int i = 0; i < 4; i++) {
     float x = i * 200 + 25;
     cars[index] = new Car(x, height-grid*4, grid, grid, 1.2);
+    index++;
+  } 
+  
+  logs = new Log[2];
+  
+  // Row 5
+  index = 0;
+  for (int i = 0; i < 2; i++) {
+    float x = i * 200 + 100;
+    logs[index] = new Log(x, height-grid*6, grid*3, grid, 2.3);
     index++;
   } 
 }
 
 void draw() {
   background(0);
-  frog.show();
+  fill(255, 100);
+  rect(0, height-grid, width, grid);
+  rect(0, height-grid*5, width, grid);
+
   for (Car car : cars) { 
     if (car != null) {
       car.show();
@@ -50,6 +64,32 @@ void draw() {
       }
     }
   }
+  
+  for (Log log : logs) { 
+    if (log != null) {
+      log.show();
+      log.update();
+    }
+  }
+  
+  if (frog.y < height-grid*5) {
+    boolean ok = false;
+    for (Log log : logs) { 
+      if (log != null) {
+        if (frog.intersects(log)) {
+          ok = true;
+        }
+      }
+    }
+    if (!ok) {
+      resetGame();
+    }
+  }
+   
+
+
+    
+  frog.show();
 }
 
 void keyPressed() {

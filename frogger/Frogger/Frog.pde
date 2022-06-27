@@ -1,7 +1,13 @@
 class Frog extends Rectangle {
 
+  Log attached;
+  
   Frog(float x, float y, float w) {
      super(x, y, w, w);
+  }
+  
+  void attach(Log log) {
+    attached = log;
   }
   
   void show() {
