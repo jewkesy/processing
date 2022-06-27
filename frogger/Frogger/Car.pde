@@ -1,13 +1,13 @@
-class Car extends Rectangle {
+class Obstacle extends Rectangle {
   float speed;
   
-  Car(float x, float y, float w, float h, float s) {
+  Obstacle(float x, float y, float w, float h, float s) {
      super(x, y, w, h);
      speed = s;
   }
   
   void show() {
-    fill(200);
+    fill(255);
     rect(x, y, w, h);
   }
   
@@ -16,7 +16,7 @@ class Car extends Rectangle {
     
     if (speed > 0 && x > width+grid) {
       x = -w-grid;
-    } else if (speed < 0 && x < -grid) {
+    } else if (speed < 0 && x < -w-grid) {
       x = width+grid;
     }
   }

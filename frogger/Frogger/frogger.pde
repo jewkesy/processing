@@ -1,93 +1,82 @@
 Frog frog;
-Car[] cars;
-Log[] logs;
+Lane[] lanes;
+
+int SAFETY = 0;
+int CAR = 1;
+int LOG = 2;
 
 float grid = 50;
 
 void resetGame() {
-  frog = new Frog(width / 2-grid / 2, height-grid*5, grid);
+  frog = new Frog(width / 2-grid / 2, height-grid, grid);
+  frog.attach(null);
 }
 
 void setup() {
-  size(550, 500);
+  size(500, 550);
   resetGame();
   
-  cars = new Car[10];
+  int totalLanes = int(height / grid);
+  lanes = new Lane[totalLanes];
 
-  int index = 0;
+  //for (int i = 0; i < lanes.length; i++) {
+  //  lanes[i] = new Lane(i*grid, 3, 2, 200);
+  //}
   
-  // Row 1
-  for (int i = 0; i < 2; i++) {
-    float x = i * 300;
-    cars[index] = new Car(x, height-grid*2, grid*2, grid, 2);
-    index++;
-  } 
-  
-  // Row 2
-  for (int i = 0; i < 2; i++) {
-    float x = i * 200 + 150;
-    cars[index] = new Car(x, height-grid*3, grid, grid, -3.5);
-    index++;
-  } 
-  
-  // Row 3
-  for (int i = 0; i < 4; i++) {
-    float x = i * 200 + 25;
-    cars[index] = new Car(x, height-grid*4, grid, grid, 1.2);
-    index++;
-  } 
-  
-  logs = new Log[2];
-  
-  // Row 5
-  index = 0;
-  for (int i = 0; i < 2; i++) {
-    float x = i * 200 + 100;
-    logs[index] = new Log(x, height-grid*6, grid*3, grid, 2.3);
-    index++;
-  } 
+  lanes[0] = new Lane(0, color(100));
+  lanes[1] = new Lane(1, LOG, 3, 1, 150, 3);
+  lanes[2] = new Lane(2, LOG, 2, 3, 350, -2.5);
+  lanes[3] = new Lane(3, LOG, 4, 1, 200, 1);
+  lanes[4] = new Lane(4, LOG, 3, 2, 250, -1.7);
+  lanes[5] = new Lane(5, color(100));
+  lanes[6] = new Lane(6, CAR, 3, 1, 150, 2.4);
+  lanes[7] = new Lane(7, CAR, 2, 2, 150, -3.6);
+  lanes[8] = new Lane(8, CAR, 1, 3, 150, 2.3);
+  lanes[9] = new Lane(9, CAR, 4, 1, 150, -1);
+  lanes[10]= new Lane(10, color(100));
 }
 
 void draw() {
   background(0);
-  fill(255, 100);
-  rect(0, height-grid, width, grid);
-  rect(0, height-grid*5, width, grid);
+  
+  for (Lane lane : lanes) {
+    if (lane != null) lane.run();
+  }
+  
+  for (Lane lane : lanes) {
+    if (lane != null) {
+      lane.check(frog);
+    }
+  }
+  
 
-  for (Car car : cars) { 
-    if (car != null) {
-      car.show();
-      car.update();
-      if (frog.intersects(car)) {
-        println("Game Over");
-        resetGame();
-      }
-    }
-  }
   
-  for (Log log : logs) { 
-    if (log != null) {
-      log.show();
-      log.update();
-    }
-  }
+  //for (Log log : logs) { 
+  //  if (log != null) {
+  //    log.show();
+  //    log.update();
+  //  }
+  //}
   
-  if (frog.y < height-grid*5) {
-    boolean ok = false;
-    for (Log log : logs) { 
-      if (log != null) {
-        if (frog.intersects(log)) {
-          ok = true;
-        }
-      }
-    }
-    if (!ok) {
-      resetGame();
-    }
-  }
+  //if (frog.y < height-grid*5 && frog.y > grid*2) {
+  //  boolean ok = false;
+  //  for (Log log : logs) { 
+  //    if (log != null) {
+  //      if (frog.intersects(log)) {
+  //        ok = true;
+  //        frog.attach(log);
+  //      }
+  //    }
+  //  }
+  //  if (!ok) {
+  //    resetGame();
+  //  }
+  //} else {
+  //  frog.attach(null);
+  //}
    
 
-
+  frog.update();
     
   frog.show();
 }

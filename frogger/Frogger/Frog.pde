@@ -1,30 +1,31 @@
 class Frog extends Rectangle {
 
-  Log attached;
+  Obstacle attached = null;
   
   Frog(float x, float y, float w) {
      super(x, y, w, w);
   }
   
-  void attach(Log log) {
+  void attach(Obstacle log) {
     attached = log;
   }
   
+  void update() {
+    if (attached != null) {
+      frog.x += attached.speed;
+    }
+    
+    frog.x = constrain(x, 0, width-frog.w);
+    frog.y = constrain(y, 0, height-frog.h);
+  }
+  
   void show() {
-    fill(255);
+    fill(36, 143, 36, 200);
     rect(x, y, w, w);
   }
   
   void move(float xdir, float ydir) {
-    float tmpx = x;
-    float tmpy = y;
-    tmpx += xdir * grid;
-    tmpy += ydir * grid;
-    if (tmpx < 0 || tmpx >= width) return;
-    if (tmpy < 0 || tmpy >= height) return;
-    
     x += xdir * grid;
     y += ydir * grid;
   }
-
 }
