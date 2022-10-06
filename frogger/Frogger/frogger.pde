@@ -42,42 +42,11 @@ void draw() {
   for (Lane lane : lanes) {
     if (lane != null) lane.run();
   }
-  
-  for (Lane lane : lanes) {
-    if (lane != null) {
-      lane.check(frog);
-    }
-  }
-  
-
-  
-  //for (Log log : logs) { 
-  //  if (log != null) {
-  //    log.show();
-  //    log.update();
-  //  }
-  //}
-  
-  //if (frog.y < height-grid*5 && frog.y > grid*2) {
-  //  boolean ok = false;
-  //  for (Log log : logs) { 
-  //    if (log != null) {
-  //      if (frog.intersects(log)) {
-  //        ok = true;
-  //        frog.attach(log);
-  //      }
-  //    }
-  //  }
-  //  if (!ok) {
-  //    resetGame();
-  //  }
-  //} else {
-  //  frog.attach(null);
-  //}
-   
-
-  frog.update();
     
+  int laneIndex = int(frog.y/ grid);
+  lanes[laneIndex].check(frog);
+
+  frog.update();   
   frog.show();
 }
 

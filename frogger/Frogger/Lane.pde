@@ -34,7 +34,7 @@ class Lane extends Rectangle {
       }
     } else if (type == LOG) {
       boolean ok = false;
-      for (Obstacle o : obstacle) {
+      for (Obstacle o : obstacles) {
         if (o != null) {
           if (frog.intersects(o)) {
             ok = true;
@@ -42,9 +42,9 @@ class Lane extends Rectangle {
           }
         }
       }
-      //if (!ok) {
-      //  resetGame();
-      //}
+      if (!ok) {
+        resetGame();
+      }
     }
   }
 

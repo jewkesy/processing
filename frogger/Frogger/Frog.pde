@@ -27,5 +27,6 @@ class Frog extends Rectangle {
   void move(float xdir, float ydir) {
     x += xdir * grid;
     y += ydir * grid;
+    frog.attach(null);
   }
 }
