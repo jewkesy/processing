@@ -1,5 +1,5 @@
 class Drop {
-  float x = random(width);
+  float x = random(width+10);
   float y = random(-1500, -10);
   float z = random(0, 20);
   float len = map(z, 0, 20, 8, 30);
