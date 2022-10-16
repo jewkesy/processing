@@ -1,6 +1,6 @@
 void keyPressed() {
   if (key == ' ') {
-    started = true;
+    move.start();
   }
 }
 

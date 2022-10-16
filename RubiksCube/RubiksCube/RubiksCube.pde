@@ -4,11 +4,26 @@ PeasyCam cam;
 
 int dim = 3;
 Box[] cube = new Box [dim*dim*dim]; 
+Move[] allMoves = new Move[] {
+  new Move(0, 1, 0, 1),
+  new Move(0, 1, 0, -1),
+  new Move(0, -1, 0, 1),
+  new Move(0, -1, 0, -1),
+  new Move(1, 0, 0, 1),
+  new Move(1, 0, 0, -1),
+  new Move(-1, 0, 0, 1),
+  new Move(-1, 0, 0, -1),
+  new Move(0, 0, 1, 1),
+  new Move(0, 0, 1, -1),
+  new Move(0, 0, -1, 1),
+  new Move(0, 0, -1, -1)
+};
 
-String[] allMoves = {"f", "b", "u", "d", "l", "r"};
-String sequence = "";
+ArrayList<Move> sequence = new ArrayList<Move>();
 int counter = 0;
 boolean started = false;
+
+Move currentMove;
 
 void setup() {
   size(600, 600, P3D);
@@ -27,25 +42,18 @@ void setup() {
   
   for (int i = 0; i < 10; i++) {
     int r = int(random(allMoves.length));
-    if (random(1) < 0.5) {
-      sequence += allMoves[r];
-    } else {
-      sequence += allMoves[r].toUpperCase();
-    }
+    Move m = allMoves[r];
+    sequence.add(m);
   }
   
-  for (int i = sequence.length()-1; i >= 0; i-- ){
-    String nextMove = ""+ flipCase(sequence.charAt(i));
-  }
-  println(sequence);
-}
+  currentMove = sequence.get(counter);
+  
+  //for (int i = sequence.length()-1; i >= 0; i-- ){
+  //  String nextMove = ""+ flipCase(sequence.charAt(i));
+  //  sequence += nextMove;
+  //}
+  
 
-String flipCase(char c) {
-  String s = new String(c);
-  if (s.equals(s.toLowerCase())) {
-    return s.toUpperCase();
-  }
-  return s.toLowerCase();
 }
 
 void turnX(int index, int dir) {
@@ -89,19 +97,31 @@ void turnZ(int index, int dir) {
 
 void draw () {
   background(51);
+  rotateX(-0.5);
+  rotateY(0.4);
+  rotateZ(0.1);
   
   if (started) {
-    if (frameCount % 20 == 0) {
-      if (counter < sequence.length()) {
-        char move = sequence.charAt(counter);
-        applyMove(move);
+    currentMove.update();
+    if (currentMove.finished()) {
+      if (counter < sequence.size()) {
         counter++;
+        currentMove = sequence.get(counter);
       }
     }
   }
   
   scale(50);
   for (int i = 0; i < cube.length; i++) {
-    cube[i].show(); 
+    push();
+    if (abs(cube[i].z) > 0 && cube[i].z == currentMove.z) {
+      rotateZ(currentMove.angle);
+    } else if (abs(cube[i].x) > 0 && cube[i].x == currentMove.x) {
+      rotateX(currentMove.angle);
+    } else if (abs(cube[i].y) > 0 && cube[i].y == currentMove.y) {
+      rotateY(-currentMove.angle);
+    }
+    cube[i].show();
+    pop();
   }
 }
