@@ -1,8 +1,9 @@
 import peasy.*;
 
 PeasyCam cam;
-
+float speed = 1.0;
 int dim = 3;
+float MOVES = 1000;
 Box[] cube = new Box [dim*dim*dim]; 
 Move[] allMoves = new Move[] {
   new Move(0, 1, 0, 1),
@@ -27,6 +28,7 @@ Move currentMove;
 
 void setup() {
   size(600, 600, P3D);
+  //fullScreen(P3D);
   cam = new PeasyCam(this, 400);
   int index = 0;
   for (int x = -1; x <= 1; x++) {
@@ -40,7 +42,7 @@ void setup() {
     }
   }
   
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < MOVES; i++) {
     int r = int(random(allMoves.length));
     Move m = allMoves[r];
     sequence.add(m);
@@ -48,12 +50,11 @@ void setup() {
   
   currentMove = sequence.get(counter);
   
-  //for (int i = sequence.length()-1; i >= 0; i-- ){
-  //  String nextMove = ""+ flipCase(sequence.charAt(i));
-  //  sequence += nextMove;
-  //}
-  
-
+  for (int i = sequence.size()-1; i >= 0; i-- ){
+    Move nextMove = sequence.get(i).copy();
+    nextMove.reverse();
+    sequence.add(nextMove);
+  }
 }
 
 void turnX(int index, int dir) {
@@ -97,20 +98,24 @@ void turnZ(int index, int dir) {
 
 void draw () {
   background(51);
+  
+  fill(255);
+  textSize(32); 
+  text(counter, 100, 100);
+  
   rotateX(-0.5);
   rotateY(0.4);
   rotateZ(0.1);
-  
-  if (started) {
-    currentMove.update();
-    if (currentMove.finished()) {
-      if (counter < sequence.size()) {
-        counter++;
-        currentMove = sequence.get(counter);
-      }
+
+  currentMove.update();
+  if (currentMove.finished()) {
+    if (counter < sequence.size()-1) {
+      counter++;
+      currentMove = sequence.get(counter);
+      currentMove.start();
     }
   }
-  
+
   scale(50);
   for (int i = 0; i < cube.length; i++) {
     push();
@@ -118,7 +123,7 @@ void draw () {
       rotateZ(currentMove.angle);
     } else if (abs(cube[i].x) > 0 && cube[i].x == currentMove.x) {
       rotateX(currentMove.angle);
-    } else if (abs(cube[i].y) > 0 && cube[i].y == currentMove.y) {
+    } else if (abs (cube[i].y) > 0 && cube[i].y == currentMove.y) {
       rotateY(-currentMove.angle);
     }
     cube[i].show();

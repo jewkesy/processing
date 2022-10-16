@@ -14,8 +14,18 @@ class Move {
     this.dir = dir;
   }
   
+  Move copy() {
+    return new Move(x, y, z, dir);
+  }
+  
+  void reverse() {
+    dir *= -1;
+  }
+  
   void start() {
     animating = true;
+    finished = false;
+    this.angle = 0;
   }
   
   boolean finished() {
@@ -24,7 +34,7 @@ class Move {
   
   void update() {
     if (animating) {
-      angle += dir * 0.1;
+      angle += dir * speed;
       if (abs(angle) > HALF_PI) {
         angle = 0;
         animating = false;

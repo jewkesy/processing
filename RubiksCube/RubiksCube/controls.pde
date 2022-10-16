@@ -1,6 +1,7 @@
 void keyPressed() {
   if (key == ' ') {
-    move.start();
+    currentMove.start();
+    //started = true;
   }
 }
 
