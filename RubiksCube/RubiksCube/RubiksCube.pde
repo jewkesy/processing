@@ -1,9 +1,9 @@
 import peasy.*;
 
 PeasyCam cam;
-float speed = 1.0;
+float speed = 0.2;
 int dim = 3;
-float MOVES = 1000;
+float MOVES = 10;
 Box[] cube = new Box [dim*dim*dim]; 
 Move[] allMoves = new Move[] {
   new Move(0, 1, 0, 1),
